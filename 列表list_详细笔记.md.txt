@@ -1,0 +1,218 @@
+# 黑马程序员 Python+AI 零基础入门到大神课程笔记
+
+## 核心语法 - 数据容器 - 列表（list）（第37-42集）
+
+> **视频总览**（数据容器模块从第36集开始）：  
+> Python 提供 5 大数据容器：列表（list）、元组（tuple）、字符串（str）、字典（dict）、集合（set）。  
+> **列表是其中最灵活、最常用的可变序列**，老师强调：“列表就像一个可以随意伸缩的‘抽屉’，想存什么就存什么，想改就改，是后续所有数据处理的基础！”
+
+---
+
+### 第37集：列表 list - 介绍（18:45）
+
+#### 1. 什么是列表？为什么需要列表？
+- **定义**：列表是用 `[]` 括起来的、有序的、可重复的、可修改的元素集合。
+- **特点**（老师反复强调的 5 大特性）：
+  1. **有序**：元素有位置（下标），支持正向/负向索引。
+  2. **可重复**：同一个元素可以出现多次。
+  3. **可修改**（mutable）：增删改操作不会创建新列表。
+  4. **可嵌套**：列表里可以放任何类型（包括另一个列表）。
+  5. **长度动态**：不需要提前声明大小。
+
+#### 2. 列表的定义方式
+```python
+# 方式1：直接用[]（推荐）
+empty_list = []
+name_list = ["张三", "李四", "王五"]
+mixed_list = [10, "hello", True, 3.14, [1, 2, 3]]   # 混合类型 + 嵌套
+
+# 方式2：使用list()转换
+list_from_str = list("hello")          # ['h', 'e', 'l', 'l', 'o']
+list_from_range = list(range(5))       # [0, 1, 2, 3, 4]
+
+print(type(name_list))   # <class 'list'>
+3. 列表的下标（索引）访问
+Pythonnames = ["张三", "李四", "王五", "赵六"]
+print(names[0])      # 张三
+print(names[2])      # 王五
+print(names[-1])     # 赵六（倒数第1个）
+print(names[-2])     # 王五（倒数第2个）
+
+# 错误演示（老师会演示报错）
+# print(names[10])   # IndexError: list index out of range
+老师强调：索引从 0 开始，负索引从 -1 开始；超出范围一定报 IndexError。
+4. 列表常用内置函数（初步）
+Pythonprint(len(names))                    # 4
+print("李四" in names)               # True
+print("孙七" not in names)            # True
+
+第38集：列表 list - 切片（14:14）
+1. 切片核心语法（老师用动画演示）
+Python列表[起始索引:结束索引:步长]
+
+规则：
+包含起始索引，不包含结束索引（左闭右开）。
+步长默认 1，可以省略。
+步长为负数 → 反向切片（此时起始索引 > 结束索引）。
+
+
+2. 详细切片示例（视频中逐个演示）
+Pythonnums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# 基本切片
+print(nums[2:6])      # [2, 3, 4, 5]
+print(nums[:5])       # [0, 1, 2, 3, 4]   # 从头
+print(nums[5:])       # [5, 6, 7, 8, 9]   # 到尾
+print(nums[::2])      # [0, 2, 4, 6, 8]   # 步长2
+
+# 反向切片
+print(nums[::-1])     # [9, 8, ..., 0]     # 完整反转
+print(nums[7:1:-1])   # [7, 6, 5, 4, 3, 2] # 从7到2（不含1）
+
+# 高级
+print(nums[1:8:3])    # [1, 4, 7]
+print(nums[-5:-1])    # [5, 6, 7, 8]      # 负索引切片
+3. 切片重要特性（老师重点强调）
+
+切片始终返回一个新列表（原列表不变）。
+切片可用于拷贝列表（浅拷贝）：Pythonnew_list = nums[:]     # 完整拷贝
+易错点：步长为负数时，起始索引必须大于结束索引，否则返回空列表 []。
+
+
+第39集：列表 list - 常用方法（15:01）
+1. 增加元素（增）
+Pythonlst = [1, 2, 3]
+
+lst.append(4)               # 追加单个 → [1, 2, 3, 4]
+lst.insert(1, 99)           # 插入指定位置 → [1, 99, 2, 3, 4]
+lst.extend([5, 6, 7])       # 追加可迭代对象（会拆开）→ [1, 99, 2, 3, 4, 5, 6, 7]
+
+# 易错对比
+lst.append([8, 9])          # 整体追加 → [..., [8, 9]]（嵌套）
+2. 删除元素（删）
+Pythonlst = [1, 2, 3, 4, 5, 2]
+
+popped = lst.pop()          # 删除末尾并返回 → 2
+popped2 = lst.pop(2)        # 删除指定索引 → 3
+lst.remove(2)               # 删除第一个匹配值（不返回）→ 只删第一个2
+lst.clear()                 # 清空
+
+# del 关键字（老师演示）
+del lst[0]                  # 删除指定索引
+# del lst                   # 删除整个变量
+3. 修改元素（改）
+Pythonlst[0] = 100                # 直接赋值
+lst[1:3] = [200, 300]       # 切片修改（长度可变）
+4. 查询与统计
+Pythonlst = [1, 2, 2, 3, 4]
+print(lst.index(2))         # 1（第一次出现位置）
+print(lst.count(2))         # 2
+print(2 in lst)             # True
+5. 排序与反转
+Pythonnums = [3, 1, 4, 2]
+nums.sort()                 # 原地升序
+nums.sort(reverse=True)     # 原地降序
+nums.reverse()              # 原地反转
+
+# 不修改原列表
+sorted_nums = sorted(nums)
+reversed_nums = list(reversed(nums))
+老师反复强调的易错点：
+
+append vs extend：extend 会把可迭代对象“拆开”添加。
+remove 只删第一个，找不到会报 ValueError。
+pop() 无参删末尾，有参删指定位置并返回被删元素。
+所有修改方法（append、insert、remove、sort、reverse）返回 None（不要赋值！）。
+
+
+第40集：列表 list - 案例1（12:00）
+实战：员工信息管理系统（增删改查 + 遍历 + 防止索引错位删除）
+Python# 初始数据（嵌套列表）
+employees = [
+    ["张三", 28, "工程师", 8000],
+    ["李四", 35, "产品经理", 12000],
+    ["王五", 22, "实习生", 3000],
+    ["赵六", 40, "测试", 9000]
+]
+
+# 1. 遍历打印（两种方式）
+for emp in employees:
+    print(f"姓名：{emp[0]}，年龄：{emp[1]}，职位：{emp[2]}，薪资：{emp[3]}")
+
+# 2. 新增员工
+new_emp = ["孙七", 29, "开发", 10000]
+employees.append(new_emp)
+
+# 3. 删除“实习生”（倒序遍历防止索引错位！老师重点演示）
+i = len(employees) - 1
+while i >= 0:
+    if employees[i][2] == "实习生":
+        del employees[i]
+    i -= 1
+
+# 4. 修改薪资（涨10%）
+for emp in employees:
+    emp[3] = int(emp[3] * 1.1)
+
+print(employees)
+老师强调：删除时必须倒序遍历，否则正序删除会导致后面元素索引前移，漏删或越界。
+
+第41集：列表 list - 案例2（解包）（18:15）
+1. 列表解包基础
+Pythona, b, c = [10, 20, 30]
+print(a, b, c)   # 10 20 30
+
+# 数量必须完全匹配，否则 ValueError
+2. 高级解包技巧（* 接收剩余元素）
+Pythonfirst, *middle, last = [1, 2, 3, 4, 5, 6]
+print(first)     # 1
+print(middle)    # [2, 3, 4, 5]
+print(last)      # 6
+
+# 忽略部分元素
+_, *rest = [10, 20, 30, 40]
+print(rest)      # [20, 30, 40]
+3. 实际应用
+Python# 交换两个变量（最优雅写法）
+x, y = 5, 10
+x, y = y, x
+
+# 函数返回多个值（实际返回元组，可直接解包）
+def get_student():
+    return ["小明", 18, "北京"]
+
+name, age, city = get_student()
+老师强调：* 只能出现一次，通常放在中间或末尾；解包让代码更简洁，是 Pythonic 风格。
+
+第42集：列表 list - 案例3（推导式）（15:57）
+1. 列表推导式语法
+Python[表达式 for 变量 in 可迭代对象 if 条件]
+2. 经典示例（老师从简单到复杂演示）
+Python# 1. 简单生成平方数
+squares = [x**2 for x in range(10)]          # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# 2. 带条件过滤偶数平方
+even_squares = [x**2 for x in range(10) if x % 2 == 0]
+
+# 3. 嵌套推导式 → 九九乘法表
+table = [[f"{i}×{j}={i*j}" for j in range(1, 10)] for i in range(1, 10)]
+
+# 4. 实际业务：过滤及转换
+scores = [45, 88, 92, 60, 75, 30]
+pass_scores = [s for s in scores if s >= 60]
+double_scores = [s * 2 for s in scores if s >= 60]
+
+# 5. 带 else 的三元表达式版（进阶）
+result = [x if x % 2 == 0 else -x for x in range(10)]
+3. 优势 & 注意事项
+
+优势：代码极简、性能高（比 for + append 快）。
+缺点：过于复杂时可读性差 → 老师建议“逻辑简单时用推导式，复杂逻辑还是用普通 for 循环”。
+面试常考：推导式 vs 普通循环的性能对比、嵌套推导式写法。
+
+
+总结与扩展知识
+
+列表是可变对象 → 赋值时是引用传递（后续会讲深浅拷贝）。
+性能提示：频繁增删建议用 collections.deque（后续高级内容）。
+与其它容器对比：容器是否可变是否有序是否可重复list可变有序可重复tuple不可变有序可重复str不可变有序可重复
